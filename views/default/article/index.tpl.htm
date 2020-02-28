@@ -244,7 +244,7 @@
 										<label id="later_time_label" class="pull-right"></label>
 									</div>
 
-									<a href="javascript:;" onclick="AWS.submit_append($('#answer_form'), $(this), $('.aw-replies'), reply_callback);" class="btn btn-normal btn-success pull-right btn-reply"><?php _e('回复'); ?></a>
+									<a href="javascript:;" onclick="AWS.submit_append($('#answer_form'), $(this), $('.aw-replies'), reply_callback);" class="btn btn-normal btn-info pull-right btn-reply"><?php _e('回复'); ?></a>
 									<span class="pull-right">&nbsp;</span>
 
 									<?php if (get_setting('image_upload_link')) { ?><a class="pull-right" href="<?php echo get_setting('image_upload_link'); ?>" rel="nofollow noreferrer noopener" target="_blank"><?php _e('上传图片'); ?></a><?php } ?>
@@ -279,7 +279,7 @@
 								<?php if ($this->user_info['permission']['reply_anonymously']) { ?>
 								&nbsp;<input type="checkbox" value="1" name="anonymous" /> <?php _e(get_setting('anonymous_option_name')); ?>
 								<?php } ?>
-								&nbsp;<a href="javascript:;" onclick="AWS.submit_append($('#answer_form_2'), $(this), $('.aw-replies'), reply_callback_2);" class="btn btn-normal btn-success btn-submit btn-reply"><?php _e('回复'); ?></a>
+								&nbsp;<a href="javascript:;" onclick="AWS.submit_append($('#answer_form_2'), $(this), $('.aw-replies'), reply_callback_2);" class="btn btn-normal btn-info btn-submit btn-reply"><?php _e('回复'); ?></a>
 							</label>
 
 							<label class="pull-right">

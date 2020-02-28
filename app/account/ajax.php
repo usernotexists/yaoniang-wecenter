@@ -397,32 +397,54 @@ class ajax extends AWS_CONTROLLER
 
 	public function modify_password_action()
 	{
-		if (!$_POST['old_password'])
-		{
-			H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('请输入当前密码')));
-		}
+    //有提交密码的情况
+    if($_POST['old_password'] && $_POST['password'] && $_POST['re_password'])
+    {
+      if (!$_POST['old_password'])
+      {
+        H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('请输入当前密码')));
+      }
 
-		if ($_POST['password'] != $_POST['re_password'])
-		{
-			H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('请输入相同的确认密码')));
-		}
+      if ($_POST['password'] != $_POST['re_password'])
+      {
+        H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('请输入相同的确认密码')));
+      }
 
-		if (strlen($_POST['password']) < 6)
-		{
-			H::ajax_json_output(AWS_APP::RSM(null, -1, AWS_APP::lang()->_t('密码长度不符合规则')));
-		}
+      if (strlen($_POST['password']) < 6)
+      {
+        H::ajax_json_output(AWS_APP::RSM(null, -1, AWS_APP::lang()->_t('密码长度不符合规则')));
+      }
 
-		if ($this->model('account')->update_user_password($_POST['password'], $this->user_id, $_POST['old_password'], $this->user_info['salt']))
-		{
-			$this->model('account')->logout();
-			H::ajax_json_output(AWS_APP::RSM(array(
-				'url' => get_js_url('/account/password_updated/')
-			), 1, null));
-		}
-		else
-		{
-			H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('请输入正确的当前密码')));
-		}
+      if ($this->model('account')->update_user_password($_POST['password'], $this->user_id, $_POST['old_password'], $this->user_info['salt']))
+      {
+        //修改密码后不踢掉用户的登录状态
+        $this->model('account')->setcookie_login($this->user_id, $this->user_info['user_name'], $_POST['password'], $this->user_info['salt']);
+        H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('密码修改成功')));
+      }
+      else
+      {
+        H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('请输入正确的当前密码')));
+      }
+    }
+    //有提交密码恢复字符串的情况
+    elseif($_POST['password_recovery_str'])
+    //
+    {
+      if($this->user_info['password_recovery_str']) H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('已经设置过恢复码。如需重新设置，请修改密码')));
+    
+      $update_data['password_recovery_str'] = sha1($this->user_id . base64_encode(trim($_POST['password_recovery_str'])) . $this->user_id);
+
+      // 更新主表
+      $this->model('account')->update_user_fields($update_data, $this->user_id);
+    
+    
+      H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('密码恢复设置成功')));
+    }
+    //什么都没有
+    else
+    {
+      H::ajax_json_output(AWS_APP::RSM(null, '-1', AWS_APP::lang()->_t('什么都没做啊┑(~Д~)┍')));
+    }
 	}
 
 }

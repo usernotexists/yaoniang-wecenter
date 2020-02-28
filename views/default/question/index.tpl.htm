@@ -139,7 +139,7 @@
 								<!-- end 下拉菜单 -->
 
 								<?php if ($this->user_id) { ?>
-								<a href="javascript:;" onclick="AWS.User.follow($(this), 'question', <?php echo $this->question_info['id']; ?>);" class="follow btn btn-normal btn-success pull-right <?php if ($this->question_focus) { ?> active<?php } ?>"><span><?php if ($this->question_focus) { ?><?php _e('取消关注'); ?><?php } else { ?><?php _e('关注'); ?><?php } ?></span> <em>|</em> <b><?php echo $this->question_info['focus_count']?></b></a>
+								<a href="javascript:;" onclick="AWS.User.follow($(this), 'question', <?php echo $this->question_info['id']; ?>);" class="follow btn btn-normal btn-info pull-right <?php if ($this->question_focus) { ?> active<?php } ?>"><span><?php if ($this->question_focus) { ?><?php _e('取消关注'); ?><?php } else { ?><?php _e('关注'); ?><?php } ?></span> <em>|</em> <b><?php echo $this->question_info['focus_count']?></b></a>
 								<?php } ?>
 
 							</div>
@@ -332,7 +332,7 @@
 										<label id="later_time_label" class="pull-right"></label>
 									</div>
 
-									<a href="javascript:;" onclick="AWS.submit_append($('#answer_form'), $(this), $('.aw-replies'), reply_callback);" class="btn btn-normal btn-success pull-right btn-reply"><?php _e('回复'); ?></a>
+									<a href="javascript:;" onclick="AWS.submit_append($('#answer_form'), $(this), $('.aw-replies'), reply_callback);" class="btn btn-normal btn-info pull-right btn-reply"><?php _e('回复'); ?></a>
 									<span class="pull-right">&nbsp;</span>
 
 									<?php if (get_setting('image_upload_link')) { ?><a class="pull-right" href="<?php echo get_setting('image_upload_link'); ?>" rel="nofollow noreferrer noopener" target="_blank"><?php _e('上传图片'); ?></a><?php } ?>

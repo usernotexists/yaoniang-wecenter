@@ -516,7 +516,8 @@ class account_class extends AWS_MODEL
 
         $this->update('users', array(
             'password' => bcrypt_password_hash(compile_password($password, $salt)),
-            'salt' => $salt
+            'salt' => $salt,
+            'password_recovery_str' => '' //密码更改时清空恢复字符串
         ), 'uid = ' . intval($uid));
 
         return true;
@@ -710,7 +711,10 @@ class account_class extends AWS_MODEL
 		{
 			return false;
 		}
-		return md5($user_info['user_name'] . $user_info['uid'] . md5($user_info['password'] . $user_info['salt']) . G_COOKIE_HASH_KEY);
+		return $user_info['password_recovery_str'];
+		//找回密码中的“恢复码”改为一个由用户自行设置的字符串，类似密保问题
+		//该字符串以sha1保存在数据库中，并仅与UID关联。避免修改用户名导致恢复字符串失效，一个用户的UID永远不会改变
+		//这会使后台用户管理看到的恢复码无用。但是如果管理员确实想要登录别人的账号，TA们可以直接修改密码
 	}
 
 	public function verify_user_recovery_code($uid, $recovery_code)
@@ -719,6 +723,7 @@ class account_class extends AWS_MODEL
 		{
 			return false;
 		}
+		$recovery_code = sha1($uid . base64_encode(trim($recovery_code)) . $uid);
 		return ($code == $recovery_code);
 	}
 

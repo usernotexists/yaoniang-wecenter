@@ -70,8 +70,8 @@
 						</ul>
 					</div>
 				<?php } else { ?>
-					<a class="login btn btn-normal btn-primary" href="account/login/"><?php _e('登录'); ?></a>
-					<?php if (get_setting('register_type') == 'open') { ?><a class="register btn btn-normal btn-success" href="account/register/"><?php _e('注册'); ?></a><?php } ?>
+					<a class="login btn btn-normal btn-default" href="account/login/"><?php _e('登录'); ?></a>
+					<?php if (get_setting('register_type') == 'open') { ?><a class="register btn btn-normal btn-default" href="account/register/"><?php _e('注册'); ?></a><?php } ?>
 				<?php } ?>
 				<!-- end 登录&注册栏 -->
 			</div>
@@ -98,7 +98,7 @@
 				}
 			?>
 			<div class="dropdown aw-publish-btn">
-				<a href="javascript:;" class="btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon icon-ask"></i> <?php _e('发起'); ?></a>
+				<a href="javascript:;" class="btn-pink dropdown-toggle" data-toggle="dropdown"><i class="icon icon-ask"></i> <?php _e('发起'); ?></a>
 				<ul class="dropdown-menu">
 					<?php if ($this->user_info['permission']['publish_question']) { ?>
 					<li><a href="publish/<?php echo $publish_url_params;?>"><?php _e('问题'); ?></a></li>

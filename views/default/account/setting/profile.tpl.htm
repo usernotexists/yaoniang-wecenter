@@ -27,6 +27,24 @@
 							<input name="sex" id="sex" value="2" type="radio"<?php if ($this->user_info['sex'] == 2) { ?> checked="checked"<?php } ?> /> <?php _e('女'); ?>
 						</label>
 						<label>
+							<input name="sex" id="sex" value="4" type="radio"<?php if ($this->user_info['sex'] == 4) { ?> checked="checked"<?php } ?> /> <?php _e('MTF'); ?>
+						</label>
+						<label>
+							<input name="sex" id="sex" value="5" type="radio"<?php if ($this->user_info['sex'] == 5) { ?> checked="checked"<?php } ?> /> <?php _e('FTM'); ?>
+						</label>
+						<label>
+							<input name="sex" id="sex" value="6" type="radio"<?php if ($this->user_info['sex'] == 6) { ?> checked="checked"<?php } ?> /> <?php _e('CD'); ?>
+						</label>
+						<label>
+							<input name="sex" id="sex" value="7" type="radio"<?php if ($this->user_info['sex'] == 7) { ?> checked="checked"<?php } ?> /> <?php _e('NB'); ?>
+						</label>
+						<label>
+							<input name="sex" id="sex" value="8" type="radio"<?php if ($this->user_info['sex'] == 8) { ?> checked="checked"<?php } ?> /> <?php _e('Q'); ?>
+						</label>
+						<label>
+							<input name="sex" id="sex" value="9" type="radio"<?php if ($this->user_info['sex'] == 9) { ?> checked="checked"<?php } ?> /> <?php _e('I'); ?>
+						</label>
+						<label>
 							<input name="sex" id="sex" value="3" type="radio"<?php if (!$this->user_info['sex'] OR $this->user_info['sex'] == 3) { ?> checked="checked"<?php } ?> /> <?php _e('保密'); ?>
 						</label>
 					</dd>
@@ -82,7 +100,7 @@
 						<dd class="pull-left">
 							<h5><?php _e('头像设置'); ?></h5>
 							<p><?php _e('支持 jpg、gif、png 等格式的图片'); ?></p>
-							<a class="btn btn-mini btn-success" id="avatar_uploader" href="javascript:;"><?php _e('上传头像'); ?></a> <span id="avatar_uploading_status" class="collapse"><i class="aw-loading"></i> <?php _e('文件上传中...'); ?></span>
+							<a class="btn btn-mini btn-info" id="avatar_uploader" href="javascript:;"><?php _e('上传头像'); ?></a> <span id="avatar_uploading_status" class="collapse"><i class="aw-loading"></i> <?php _e('文件上传中...'); ?></span>
 						</dd>
 					</dl>
 				</div>
@@ -93,7 +111,7 @@
 		</form>
 	</div>
 	<div class="mod-footer clearfix">
-		<a href="javascript:;" class="btn btn-large btn-success pull-right" onclick="AWS.submit($('#setting_form'), $(this));"><?php _e('保存'); ?></a>
+		<a href="javascript:;" class="btn btn-large btn-info pull-right" onclick="AWS.submit($('#setting_form'), $(this));"><?php _e('保存'); ?></a>
 	</div>
 </div>
 

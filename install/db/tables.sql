@@ -1,49 +1,87 @@
--- --------------------------------------------------------
+-- Adminer 4.3.1 MySQL dump
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8mb4 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
---
-CREATE TABLE IF NOT EXISTS `aws_answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ÂõûÁ≠îid',
-  `question_id` int(11) DEFAULT '0' COMMENT 'ÈóÆÈ¢òid',
-  `message` text COMMENT 'ÂõûÁ≠îÂÜÖÂÆπ',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  `agree_count` int(11) DEFAULT '0' COMMENT 'ÊîØÊåÅ‰∫∫Êï∞',
+SET NAMES utf8mb4;
+
+DROP TABLE IF EXISTS `aws_activity`;
+CREATE TABLE `aws_activity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '0',
+  `note` varchar(128) DEFAULT NULL,
+  `item_id` int(11) DEFAULT '0',
+  `item_type` varchar(32) DEFAULT NULL,
+  `thread_id` int(11) DEFAULT '0',
+  `category_id` int(11) DEFAULT '0',
+  `time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `thread_id` (`thread_id`),
+  KEY `category_id` (`category_id`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_admin_log`;
+CREATE TABLE `aws_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '0',
+  `admin_uid` int(11) DEFAULT '0',
+  `type` varchar(64) DEFAULT NULL,
+  `status` int(10) DEFAULT '0',
+  `detail` text,
+  `add_time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `admin_uid` (`admin_uid`),
+  KEY `type` (`type`),
+  KEY `status` (`status`),
+  KEY `add_time` (`add_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_answer`;
+CREATE TABLE `aws_answer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ªÿ¥id',
+  `question_id` int(11) DEFAULT '0' COMMENT 'Œ Ã‚id',
+  `message` text COMMENT 'ªÿ¥ƒ⁄»›',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  `agree_count` int(11) DEFAULT '0' COMMENT '÷ß≥÷»À ˝',
   `reputation` float DEFAULT '0',
-  `uid` int(11) DEFAULT '0' COMMENT 'ÂõûÁ≠îÈóÆÈ¢òÁî®Êà∑ID',
-  `comment_count` int(11) DEFAULT '0' COMMENT 'ËØÑËÆ∫ÊÄªÊï∞',
+  `uid` int(11) DEFAULT '0' COMMENT 'ªÿ¥Œ Ã‚”√ªßID',
+  `comment_count` int(11) DEFAULT '0' COMMENT '∆¿¬€◊‹ ˝',
   `fold` tinyint(1) DEFAULT '0',
+  `pid` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `question_id` (`question_id`),
   KEY `agree_count` (`agree_count`),
   KEY `reputation` (`reputation`),
   KEY `add_time` (`add_time`),
-  KEY `uid` (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ÂõûÁ≠î';
+  KEY `uid` (`uid`),
+  KEY `pid` (`pid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ªÿ¥';
 
---
 
-
---
-CREATE TABLE IF NOT EXISTS `aws_answer_discussion` (
+DROP TABLE IF EXISTS `aws_answer_discussion`;
+CREATE TABLE `aws_answer_discussion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `answer_id` int(11) DEFAULT '0',
   `uid` int(11) DEFAULT '0',
   `message` text,
   `add_time` int(10) DEFAULT '0',
+  `pid` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `answer_id` (`answer_id`),
-  KEY `add_time` (`add_time`)
+  KEY `add_time` (`add_time`),
+  KEY `pid` (`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
 
-
---
-CREATE TABLE IF NOT EXISTS `aws_article` (
+DROP TABLE IF EXISTS `aws_article`;
+CREATE TABLE `aws_article` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `uid` int(11) DEFAULT '0',
   `title` varchar(240) DEFAULT NULL,
@@ -76,11 +114,9 @@ CREATE TABLE IF NOT EXISTS `aws_article` (
   FULLTEXT KEY `title_fulltext` (`title_fulltext`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
 
-
---
-CREATE TABLE IF NOT EXISTS `aws_article_comment` (
+DROP TABLE IF EXISTS `aws_article_comment`;
+CREATE TABLE `aws_article_comment` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `uid` int(10) DEFAULT '0',
   `article_id` int(10) DEFAULT '0',
@@ -98,532 +134,21 @@ CREATE TABLE IF NOT EXISTS `aws_article_comment` (
   KEY `reputation` (`reputation`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
 
-
---
-CREATE TABLE IF NOT EXISTS `aws_category` (
+DROP TABLE IF EXISTS `aws_category`;
+CREATE TABLE `aws_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(128) DEFAULT NULL,
   `description` varchar(240) DEFAULT NULL,
   `group_id` int(11) DEFAULT '0',
   `sort` smallint(6) DEFAULT '0',
-  `skip` TINYINT(1) DEFAULT '0',
+  `skip` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
 
-
---
-CREATE TABLE IF NOT EXISTS `aws_favorite` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) DEFAULT '0',
-  `item_id` int(11) DEFAULT '0',
-  `time` int(10) DEFAULT '0',
-  `type` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`),
-  KEY `time` (`time`),
-  KEY `item_id` (`item_id`),
-  KEY `type` (`type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_feature` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) DEFAULT NULL COMMENT '‰∏ìÈ¢òÊ†áÈ¢ò',
-  `link` text COMMENT 'Ëá™ÂÆö‰πâÈìæÊé•',
-  `enabled` tinyint(1) DEFAULT '0',
-  `sort` smallint(6) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `enabled` (`enabled`),
-  KEY `sort` (`sort`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_inbox` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) DEFAULT '0' COMMENT 'ÂèëÈÄÅËÄÖ ID',
-  `dialog_id` int(11) DEFAULT '0' COMMENT 'ÂØπËØùid',
-  `message` text COMMENT 'ÂÜÖÂÆπ',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  `sender_remove` tinyint(1) DEFAULT '0',
-  `recipient_remove` tinyint(1) DEFAULT '0',
-  `receipt` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `dialog_id` (`dialog_id`),
-  KEY `uid` (`uid`),
-  KEY `add_time` (`add_time`),
-  KEY `sender_remove` (`sender_remove`),
-  KEY `recipient_remove` (`recipient_remove`),
-  KEY `sender_receipt` (`receipt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_inbox_dialog` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ÂØπËØùID',
-  `sender_uid` int(11) DEFAULT NULL COMMENT 'ÂèëÈÄÅËÄÖUID',
-  `sender_unread` int(11) DEFAULT NULL COMMENT 'ÂèëÈÄÅËÄÖÊú™ËØª',
-  `recipient_uid` int(11) DEFAULT NULL COMMENT 'Êé•Êî∂ËÄÖUID',
-  `recipient_unread` int(11) DEFAULT NULL COMMENT 'Êé•Êî∂ËÄÖÊú™ËØª',
-  `add_time` int(11) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  `update_time` int(11) DEFAULT '0' COMMENT 'ÊúÄÂêéÊõ¥Êñ∞Êó∂Èó¥',
-  `sender_count` int(11) DEFAULT NULL COMMENT 'ÂèëÈÄÅËÄÖÊòæÁ§∫ÂØπËØùÊù°Êï∞',
-  `recipient_count` int(11) DEFAULT NULL COMMENT 'Êé•Êî∂ËÄÖÊòæÁ§∫ÂØπËØùÊù°Êï∞',
-  PRIMARY KEY (`id`),
-  KEY `recipient_uid` (`recipient_uid`),
-  KEY `sender_uid` (`sender_uid`),
-  KEY `update_time` (`update_time`),
-  KEY `add_time` (`add_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_currency_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) DEFAULT '0',
-  `action` varchar(64) DEFAULT NULL,
-  `currency` int(11) DEFAULT NULL,
-  `note` varchar(128) DEFAULT NULL,
-  `balance` int(11) DEFAULT '0',
-  `item_id` int(11) DEFAULT '0',
-  `item_type` varchar(32) DEFAULT NULL,
-  `time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`),
-  KEY `action` (`action`),
-  KEY `time` (`time`),
-  KEY `currency` (`currency`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_nav_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(128) DEFAULT NULL,
-  `description` varchar(240) DEFAULT NULL,
-  `type` varchar(16) DEFAULT NULL,
-  `type_id` int(11) DEFAULT '0',
-  `link` varchar(240) DEFAULT NULL COMMENT 'ÈìæÊé•',
-  `icon` varchar(240) DEFAULT NULL COMMENT 'ÂõæÊ†á',
-  `sort` smallint(6) DEFAULT '0' COMMENT 'ÊéíÂ∫è',
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`link`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_notification` (
-  `notification_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ëá™Â¢ûID',
-  `sender_uid` int(11) DEFAULT NULL COMMENT 'ÂèëÈÄÅËÄÖID',
-  `recipient_uid` int(11) DEFAULT '0' COMMENT 'Êé•Êî∂ËÄÖID',
-  `action_type` int(4) DEFAULT NULL COMMENT 'Êìç‰ΩúÁ±ªÂûã',
-  `model_type` smallint(11) DEFAULT '0',
-  `source_id` varchar(16) DEFAULT '0' COMMENT 'ÂÖ≥ËÅî ID',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  `read_flag` tinyint(1) DEFAULT '0' COMMENT 'ÈòÖËØªÁä∂ÊÄÅ',
-  PRIMARY KEY (`notification_id`),
-  KEY `recipient_read_flag` (`recipient_uid`,`read_flag`),
-  KEY `sender_uid` (`sender_uid`),
-  KEY `model_type` (`model_type`),
-  KEY `source_id` (`source_id`),
-  KEY `action_type` (`action_type`),
-  KEY `add_time` (`add_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Á≥ªÁªüÈÄöÁü•';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_notification_data` (
-  `notification_id` int(11) NOT NULL,
-  `data` text,
-  `add_time` int(10) DEFAULT '0',
-  PRIMARY KEY (`notification_id`),
-  KEY `add_time` (`add_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Á≥ªÁªüÈÄöÁü•Êï∞ÊçÆË°®';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_posts_index` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `post_id` int(10) DEFAULT '0' ,
-  `post_type` varchar(16) DEFAULT NULL,
-  `add_time` int(10) DEFAULT '0',
-  `update_time` int(10) DEFAULT '0',
-  `category_id` int(10) DEFAULT '0',
-  `recommend` tinyint(1) DEFAULT '0',
-  `view_count` int(10) DEFAULT '0',
-  `uid` int(10) DEFAULT '0',
-  `lock` tinyint(1) DEFAULT '0',
-  `sort` tinyint(2) DEFAULT '0',
-  `reputation` float DEFAULT '0' COMMENT 'ÂõûÂ§çÊâÄËé∑Â£∞ÊúõÊÄªÂíå',
-  `agree_count` int(10) DEFAULT '0',
-  `answer_count` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `post_id` (`post_id`),
-  KEY `post_type` (`post_type`),
-  KEY `add_time` (`add_time`),
-  KEY `update_time` (`update_time`),
-  KEY `category_id` (`category_id`),
-  KEY `recommend` (`recommend`),
-  KEY `uid` (`uid`),
-  KEY `lock` (`lock`),
-  KEY `sort` (`sort`),
-  KEY `reputation` (`reputation`),
-  KEY `agree_count` (`agree_count`),
-  KEY `answer_count` (`answer_count`),
-  KEY `view_count` (`view_count`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_question` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(240) DEFAULT NULL COMMENT 'ÈóÆÈ¢òÊ†áÈ¢ò',
-  `message` text COMMENT 'ÈóÆÈ¢òËØ¶ÁªÜËØ¥Êòé',
-  `add_time` int(11) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  `update_time` int(11) DEFAULT '0',
-  `uid` int(11) DEFAULT '0' COMMENT 'ÂèëÂ∏ÉÁî®Êà∑UID',
-  `answer_count` int(11) DEFAULT '0' COMMENT 'ÂõûÁ≠îËÆ°Êï∞',
-  `view_count` int(11) DEFAULT '0' COMMENT 'ÊµèËßàÊ¨°Êï∞',
-  `focus_count` int(11) DEFAULT '0' COMMENT 'ÂÖ≥Ê≥®Êï∞',
-  `comment_count` int(11) DEFAULT '0' COMMENT 'ËØÑËÆ∫Êï∞',
-  `category_id` int(11) DEFAULT '0' COMMENT 'ÂàÜÁ±ª ID',
-  `agree_count` int(11) DEFAULT '0' COMMENT 'ÂõûÂ§çËµûÂêåÊï∞ÊÄªÂíå',
-  `reputation` float DEFAULT '0',
-  `lock` tinyint(1) DEFAULT '0' COMMENT 'ÊòØÂê¶ÈîÅÂÆö',
-  `title_fulltext` text,
-  `recommend` tinyint(1) DEFAULT '0',
-  `sort` tinyint(2) DEFAULT '0',
-  `last_uid` int(11) DEFAULT '0',
-  `redirect_id` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `category_id` (`category_id`),
-  KEY `update_time` (`update_time`),
-  KEY `add_time` (`add_time`),
-  KEY `uid` (`uid`),
-  KEY `answer_count` (`answer_count`),
-  KEY `agree_count` (`agree_count`),
-  KEY `reputation` (`reputation`),
-  KEY `title` (`title`),
-  KEY `lock` (`lock`),
-  KEY `recommend` (`recommend`),
-  KEY `sort` (`sort`),
-  FULLTEXT KEY `title_fulltext` (`title_fulltext`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ÈóÆÈ¢òÂàóË°®';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_question_discussion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `question_id` int(11) DEFAULT '0',
-  `uid` int(11) DEFAULT '0',
-  `message` text,
-  `add_time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `question_id` (`question_id`),
-  KEY `add_time` (`add_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_question_focus` (
-  `focus_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ëá™Â¢ûID',
-  `question_id` int(11) DEFAULT '0' COMMENT 'ËØùÈ¢òID',
-  `uid` int(11) DEFAULT '0' COMMENT 'Áî®Êà∑UID',
-  `add_time` int(10) DEFAULT '0',
-  PRIMARY KEY (`focus_id`),
-  KEY `question_id` (`question_id`),
-  KEY `question_uid` (`question_id`,`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ÈóÆÈ¢òÂÖ≥Ê≥®Ë°®';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_question_invite` (
-  `question_invite_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ëá™Â¢ûID',
-  `question_id` int(11) DEFAULT '0' COMMENT 'ÈóÆÈ¢òID',
-  `sender_uid` int(11) DEFAULT '0',
-  `recipients_uid` int(11) DEFAULT '0',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  PRIMARY KEY (`question_invite_id`),
-  KEY `question_id` (`question_id`),
-  KEY `sender_uid` (`sender_uid`),
-  KEY `recipients_uid` (`recipients_uid`),
-  KEY `add_time` (`add_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ÈÇÄËØ∑ÈóÆÁ≠î';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_related_topic` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `topic_id` int(11) DEFAULT '0' COMMENT 'ËØùÈ¢ò ID',
-  `related_id` int(11) DEFAULT '0' COMMENT 'Áõ∏ÂÖ≥ËØùÈ¢ò ID',
-  PRIMARY KEY (`id`),
-  KEY `topic_id` (`topic_id`),
-  KEY `related_id` (`related_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_search_cache` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `hash` varchar(32) NOT NULL,
-  `data` mediumtext NOT NULL,
-  `time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `hash` (`hash`),
-  KEY `time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_sessions` (
-  `id` varchar(32) NOT NULL,
-  `modified` int(10) NOT NULL,
-  `data` text NOT NULL,
-  `lifetime` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `modified` (`modified`),
-  KEY `lifetime` (`lifetime`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_system_setting` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `varname` varchar(240) NOT NULL COMMENT 'Â≠óÊÆµÂêç',
-  `value` text COMMENT 'ÂèòÈáèÂÄº',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `varname` (`varname`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Á≥ªÁªüËÆæÁΩÆ';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_topic` (
-  `topic_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ËØùÈ¢òid',
-  `topic_title` varchar(64) DEFAULT NULL COMMENT 'ËØùÈ¢òÊ†áÈ¢ò',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  `discuss_count` int(11) DEFAULT '0' COMMENT 'ËÆ®ËÆ∫ËÆ°Êï∞',
-  `topic_description` text COMMENT 'ËØùÈ¢òÊèèËø∞',
-  `topic_pic` varchar(240) DEFAULT NULL COMMENT 'ËØùÈ¢òÂõæÁâá',
-  `topic_lock` tinyint(2) DEFAULT '0' COMMENT 'ËØùÈ¢òÊòØÂê¶ÈîÅÂÆö 1 ÈîÅÂÆö 0 Êú™ÈîÅÂÆö',
-  `focus_count` int(11) DEFAULT '0' COMMENT 'ÂÖ≥Ê≥®ËÆ°Êï∞',
-  `user_related` tinyint(1) DEFAULT '0' COMMENT 'ÊòØÂê¶Ë¢´Áî®Êà∑ÂÖ≥ËÅî',
-  `merged_id` int(11) DEFAULT '0',
-  `discuss_count_last_week` int(10) DEFAULT '0',
-  `discuss_count_last_month` int(10) DEFAULT '0',
-  `discuss_count_update` int(10) DEFAULT '0',
-  PRIMARY KEY (`topic_id`),
-  UNIQUE KEY `topic_title` (`topic_title`),
-  KEY `merged_id` (`merged_id`),
-  KEY `discuss_count` (`discuss_count`),
-  KEY `add_time` (`add_time`),
-  KEY `user_related` (`user_related`),
-  KEY `focus_count` (`focus_count`),
-  KEY `topic_lock` (`topic_lock`),
-  KEY `discuss_count_last_week` (`discuss_count_last_week`),
-  KEY `discuss_count_last_month` (`discuss_count_last_month`),
-  KEY `discuss_count_update` (`discuss_count_update`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ËØùÈ¢ò';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_topic_focus` (
-  `focus_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ëá™Â¢ûID',
-  `topic_id` int(11) DEFAULT '0' COMMENT 'ËØùÈ¢òID',
-  `uid` int(11) DEFAULT '0' COMMENT 'Áî®Êà∑UID',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  PRIMARY KEY (`focus_id`),
-  KEY `uid` (`uid`),
-  KEY `topic_id` (`topic_id`),
-  KEY `topic_uid` (`topic_id`,`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ËØùÈ¢òÂÖ≥Ê≥®Ë°®';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_topic_merge` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `source_id` int(11) DEFAULT '0',
-  `target_id` int(11) DEFAULT '0',
-  `uid` int(11) DEFAULT '0',
-  `time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `source_id` (`source_id`),
-  KEY `target_id` (`target_id`),
-  KEY `uid` (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_topic_relation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ëá™Â¢û ID',
-  `topic_id` int(11) DEFAULT '0' COMMENT 'ËØùÈ¢òid',
-  `item_id` int(11) DEFAULT '0',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  `uid` int(11) DEFAULT '0' COMMENT 'Áî®Êà∑ID',
-  `type` varchar(16) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `topic_id` (`topic_id`),
-  KEY `uid` (`uid`),
-  KEY `type` (`type`),
-  KEY `item_id` (`item_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_users` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Áî®Êà∑ÁöÑ UID',
-  `user_name` varchar(240) DEFAULT NULL COMMENT 'Áî®Êà∑Âêç',
-  `password` varchar(60) DEFAULT NULL COMMENT 'Áî®Êà∑ÂØÜÁ†Å',
-  `salt` varchar(16) DEFAULT NULL COMMENT 'Áî®Êà∑ÈôÑÂä†Ê∑∑Ê∑ÜÁ†Å',
-  `avatar_file` varchar(128) DEFAULT NULL COMMENT 'Â§¥ÂÉèÊñá‰ª∂',
-  `sex` tinyint(1) DEFAULT '3' COMMENT 'ÊÄßÂà´',
-  `reg_time` int(10) DEFAULT '0' COMMENT 'Ê≥®ÂÜåÊó∂Èó¥',
-  `last_login` int(10) DEFAULT '0' COMMENT 'ÊúÄÂêéÁôªÂΩïÊó∂Èó¥',
-  `notification_unread` int(11) DEFAULT '0' COMMENT 'Êú™ËØªÁ≥ªÁªüÈÄöÁü•',
-  `inbox_unread` int(11) DEFAULT '0' COMMENT 'Êú™ËØªÁü≠‰ø°ÊÅØ',
-  `inbox_recv` tinyint(1) DEFAULT '0' COMMENT '0-ÊâÄÊúâ‰∫∫ÂèØ‰ª•ÂèëÁªôÊàë,1-ÊàëÂÖ≥Ê≥®ÁöÑ‰∫∫',
-  `fans_count` int(10) DEFAULT '0' COMMENT 'Á≤â‰∏ùÊï∞',
-  `friend_count` int(10) DEFAULT '0' COMMENT 'ËßÇ‰ºóÊï∞',
-  `invite_count` int(10) DEFAULT '0' COMMENT 'ÈÇÄËØ∑ÊàëÂõûÁ≠îÊï∞Èáè',
-  `topic_focus_count` int(10) DEFAULT '0' COMMENT 'ÂÖ≥Ê≥®ËØùÈ¢òÊï∞Èáè',
-  `group_id` int(10) DEFAULT '0' COMMENT 'Áî®Êà∑ÁªÑ',
-  `forbidden` tinyint(1) DEFAULT '0' COMMENT 'ÊòØÂê¶Á¶ÅÊ≠¢Áî®Êà∑',
-  `flagged` tinyint(1) DEFAULT '0',
-  `agree_count` int(10) DEFAULT '0' COMMENT 'ËµûÂêåÊï∞Èáè',
-  `views_count` int(10) DEFAULT '0' COMMENT '‰∏™‰∫∫‰∏ªÈ°µÊü•ÁúãÊï∞Èáè',
-  `reputation` float DEFAULT '0' COMMENT 'Â£∞Êúõ',
-  `currency` int(10) DEFAULT '0',
-  `user_update_time` int(10) DEFAULT '0',
-  `verified` varchar(32) DEFAULT NULL,
-  `recent_topics` text,
-  `signature` varchar(140) DEFAULT NULL COMMENT '‰∏™‰∫∫Á≠æÂêç',
-  `settings` text,
-  `extra_data` text COMMENT 'È¢ùÂ§ñÊï∞ÊçÆ',
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `user_name` (`user_name`) USING BTREE,
-  KEY `reputation` (`reputation`),
-  KEY `group_id` (`group_id`),
-  KEY `agree_count` (`agree_count`),
-  KEY `forbidden` (`forbidden`),
-  KEY `flagged` (`flagged`),
-  KEY `currency` (`currency`),
-  KEY `verified` (`verified`),
-  KEY `last_login` (`last_login`),
-  KEY `user_update_time` (`user_update_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_users_group` (
-  `group_id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` tinyint(3) DEFAULT '0' COMMENT '0-Á≥ªÁªüÁªÑ 1-Â£∞ÊúõÁªÑ 2-ÁâπÊÆäÁªÑ',
-  `group_name` text,
-  `reputation_lower` int(11) DEFAULT '0',
-  `reputation_higer` int(11) DEFAULT '0',
-  `reputation_factor` float DEFAULT '0' COMMENT 'Â£∞ÊúõÁ≥ªÊï∞',
-  `permission` text COMMENT 'ÊùÉÈôêËÆæÁΩÆ',
-  PRIMARY KEY (`group_id`),
-  KEY `type` (`type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Áî®Êà∑ÁªÑ';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_users_notification_setting` (
-  `notice_setting_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ëá™Â¢ûid',
-  `uid` int(11) DEFAULT '0',
-  `data` text COMMENT 'ËÆæÁΩÆÊï∞ÊçÆ',
-  PRIMARY KEY (`notice_setting_id`),
-  KEY `uid` (`uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ÈÄöÁü•ËÆæÂÆö';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_user_follow` (
-  `follow_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Ëá™Â¢ûID',
-  `fans_uid` int(11) DEFAULT '0' COMMENT 'ÂÖ≥Ê≥®‰∫∫ÁöÑUID',
-  `friend_uid` int(11) DEFAULT '0' COMMENT 'Ë¢´ÂÖ≥Ê≥®‰∫∫ÁöÑuid',
-  `add_time` int(10) DEFAULT '0' COMMENT 'Ê∑ªÂä†Êó∂Èó¥',
-  PRIMARY KEY (`follow_id`),
-  KEY `fans_uid` (`fans_uid`),
-  KEY `friend_uid` (`friend_uid`),
-  KEY `user_follow` (`fans_uid`,`friend_uid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Áî®Êà∑ÂÖ≥Ê≥®Ë°®';
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_scheduled_posts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` varchar(32) DEFAULT NULL,
-  `uid` int(11) DEFAULT '0',
-  `parent_id` int(11) DEFAULT '0',
-  `time` int(10) DEFAULT '0',
-  `data` text,
-  PRIMARY KEY (`id`),
-  KEY `type` (`type`),
-  KEY `uid` (`uid`),
-  KEY `parent_id` (`parent_id`),
-  KEY `time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_content_log` (
+DROP TABLE IF EXISTS `aws_content_log`;
+CREATE TABLE `aws_content_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) DEFAULT '0',
   `thread_type` varchar(32) DEFAULT NULL,
@@ -645,18 +170,507 @@ CREATE TABLE IF NOT EXISTS `aws_content_log` (
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
+
+DROP TABLE IF EXISTS `aws_currency_log`;
+CREATE TABLE `aws_currency_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '0',
+  `action` varchar(64) DEFAULT NULL,
+  `currency` int(11) DEFAULT NULL,
+  `note` varchar(128) DEFAULT NULL,
+  `balance` int(11) DEFAULT '0',
+  `item_id` int(11) DEFAULT '0',
+  `item_type` varchar(32) DEFAULT NULL,
+  `time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `action` (`action`),
+  KEY `time` (`time`),
+  KEY `currency` (`currency`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 
---
-CREATE TABLE IF NOT EXISTS `aws_video` (
+DROP TABLE IF EXISTS `aws_failed_login`;
+CREATE TABLE `aws_failed_login` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '0',
+  `type` varchar(32) DEFAULT NULL,
+  `time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `type` (`type`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_favorite`;
+CREATE TABLE `aws_favorite` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '0',
+  `item_id` int(11) DEFAULT '0',
+  `time` int(10) DEFAULT '0',
+  `type` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `time` (`time`),
+  KEY `item_id` (`item_id`),
+  KEY `type` (`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_feature`;
+CREATE TABLE `aws_feature` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(200) DEFAULT NULL COMMENT '◊®Ã‚±ÍÃ‚',
+  `link` text COMMENT '◊‘∂®“Â¡¥Ω”',
+  `enabled` tinyint(1) DEFAULT '0',
+  `sort` smallint(6) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `enabled` (`enabled`),
+  KEY `sort` (`sort`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_inbox`;
+CREATE TABLE `aws_inbox` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) DEFAULT '0' COMMENT '∑¢ÀÕ’ﬂ ID',
+  `dialog_id` int(11) DEFAULT '0' COMMENT '∂‘ª∞id',
+  `message` text COMMENT 'ƒ⁄»›',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  `sender_remove` tinyint(1) DEFAULT '0',
+  `recipient_remove` tinyint(1) DEFAULT '0',
+  `receipt` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `dialog_id` (`dialog_id`),
+  KEY `uid` (`uid`),
+  KEY `add_time` (`add_time`),
+  KEY `sender_remove` (`sender_remove`),
+  KEY `recipient_remove` (`recipient_remove`),
+  KEY `sender_receipt` (`receipt`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_inbox_dialog`;
+CREATE TABLE `aws_inbox_dialog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '∂‘ª∞ID',
+  `sender_uid` int(11) DEFAULT NULL COMMENT '∑¢ÀÕ’ﬂUID',
+  `sender_unread` int(11) DEFAULT NULL COMMENT '∑¢ÀÕ’ﬂŒ¥∂¡',
+  `recipient_uid` int(11) DEFAULT NULL COMMENT 'Ω” ’’ﬂUID',
+  `recipient_unread` int(11) DEFAULT NULL COMMENT 'Ω” ’’ﬂŒ¥∂¡',
+  `add_time` int(11) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  `update_time` int(11) DEFAULT '0' COMMENT '◊Ó∫Û∏¸–¬ ±º‰',
+  `sender_count` int(11) DEFAULT NULL COMMENT '∑¢ÀÕ’ﬂœ‘ æ∂‘ª∞Ãı ˝',
+  `recipient_count` int(11) DEFAULT NULL COMMENT 'Ω” ’’ﬂœ‘ æ∂‘ª∞Ãı ˝',
+  PRIMARY KEY (`id`),
+  KEY `recipient_uid` (`recipient_uid`),
+  KEY `sender_uid` (`sender_uid`),
+  KEY `update_time` (`update_time`),
+  KEY `add_time` (`add_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_knowledge`;
+CREATE TABLE `aws_knowledge` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(240) DEFAULT NULL,
+  `message` text,
+  `remarks` text,
+  `uid` int(11) DEFAULT '0',
+  `last_uid` int(11) DEFAULT '0',
+  `add_time` int(10) DEFAULT '0',
+  `update_time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`),
+  KEY `last_uid` (`last_uid`),
+  KEY `add_time` (`add_time`),
+  KEY `update_time` (`update_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_nav_menu`;
+CREATE TABLE `aws_nav_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) DEFAULT NULL,
+  `description` varchar(240) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `type_id` int(11) DEFAULT '0',
+  `link` varchar(240) DEFAULT NULL COMMENT '¡¥Ω”',
+  `icon` varchar(240) DEFAULT NULL COMMENT 'Õº±Í',
+  `sort` smallint(6) DEFAULT '0' COMMENT '≈≈–Ú',
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`link`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_notification`;
+CREATE TABLE `aws_notification` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '◊‘‘ˆID',
+  `sender_uid` int(11) DEFAULT NULL COMMENT '∑¢ÀÕ’ﬂID',
+  `recipient_uid` int(11) DEFAULT '0' COMMENT 'Ω” ’’ﬂID',
+  `action_type` int(4) DEFAULT NULL COMMENT '≤Ÿ◊˜¿‡–Õ',
+  `model_type` smallint(11) DEFAULT '0',
+  `source_id` varchar(16) DEFAULT '0' COMMENT 'πÿ¡™ ID',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  `read_flag` tinyint(1) DEFAULT '0' COMMENT '‘ƒ∂¡◊¥Ã¨',
+  PRIMARY KEY (`notification_id`),
+  KEY `recipient_read_flag` (`recipient_uid`,`read_flag`),
+  KEY `sender_uid` (`sender_uid`),
+  KEY `model_type` (`model_type`),
+  KEY `source_id` (`source_id`),
+  KEY `action_type` (`action_type`),
+  KEY `add_time` (`add_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='œµÕ≥Õ®÷™';
+
+
+DROP TABLE IF EXISTS `aws_notification_data`;
+CREATE TABLE `aws_notification_data` (
+  `notification_id` int(11) NOT NULL,
+  `data` text,
+  `add_time` int(10) DEFAULT '0',
+  PRIMARY KEY (`notification_id`),
+  KEY `add_time` (`add_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='œµÕ≥Õ®÷™ ˝æ›±Ì';
+
+
+DROP TABLE IF EXISTS `aws_posts_index`;
+CREATE TABLE `aws_posts_index` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `post_id` int(10) DEFAULT '0',
+  `post_type` varchar(16) DEFAULT NULL,
+  `add_time` int(10) DEFAULT '0',
+  `update_time` int(10) DEFAULT '0',
+  `category_id` int(10) DEFAULT '0',
+  `recommend` tinyint(1) DEFAULT '0',
+  `view_count` int(10) DEFAULT '0',
+  `uid` int(10) DEFAULT '0',
+  `lock` tinyint(1) DEFAULT '0',
+  `sort` tinyint(2) DEFAULT '0',
+  `reputation` float DEFAULT '0' COMMENT 'ªÿ∏¥À˘ªÒ…˘Õ˚◊‹∫Õ',
+  `agree_count` int(10) DEFAULT '0',
+  `answer_count` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `post_id` (`post_id`),
+  KEY `post_type` (`post_type`),
+  KEY `add_time` (`add_time`),
+  KEY `update_time` (`update_time`),
+  KEY `category_id` (`category_id`),
+  KEY `recommend` (`recommend`),
+  KEY `uid` (`uid`),
+  KEY `lock` (`lock`),
+  KEY `sort` (`sort`),
+  KEY `reputation` (`reputation`),
+  KEY `agree_count` (`agree_count`),
+  KEY `answer_count` (`answer_count`),
+  KEY `view_count` (`view_count`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_question`;
+CREATE TABLE `aws_question` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(240) DEFAULT NULL COMMENT 'Œ Ã‚±ÍÃ‚',
+  `message` text COMMENT 'Œ Ã‚œÍœ∏Àµ√˜',
+  `add_time` int(11) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  `update_time` int(11) DEFAULT '0',
+  `uid` int(11) DEFAULT '0' COMMENT '∑¢≤º”√ªßUID',
+  `answer_count` int(11) DEFAULT '0' COMMENT 'ªÿ¥º∆ ˝',
+  `view_count` int(11) DEFAULT '0' COMMENT '‰Ø¿¿¥Œ ˝',
+  `focus_count` int(11) DEFAULT '0' COMMENT 'πÿ◊¢ ˝',
+  `comment_count` int(11) DEFAULT '0' COMMENT '∆¿¬€ ˝',
+  `category_id` int(11) DEFAULT '0' COMMENT '∑÷¿‡ ID',
+  `agree_count` int(11) DEFAULT '0' COMMENT 'ªÿ∏¥‘ﬁÕ¨ ˝◊‹∫Õ',
+  `reputation` float DEFAULT '0',
+  `lock` tinyint(1) DEFAULT '0' COMMENT ' «∑ÒÀ¯∂®',
+  `title_fulltext` text,
+  `recommend` tinyint(1) DEFAULT '0',
+  `sort` tinyint(2) DEFAULT '0',
+  `last_uid` int(11) DEFAULT '0',
+  `redirect_id` int(11) DEFAULT '0',
+  `tid` bigint(20) DEFAULT '0' COMMENT 'tid¡Ÿ ± ˝æ›',
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`),
+  KEY `update_time` (`update_time`),
+  KEY `add_time` (`add_time`),
+  KEY `uid` (`uid`),
+  KEY `answer_count` (`answer_count`),
+  KEY `agree_count` (`agree_count`),
+  KEY `reputation` (`reputation`),
+  KEY `title` (`title`),
+  KEY `lock` (`lock`),
+  KEY `recommend` (`recommend`),
+  KEY `sort` (`sort`),
+  KEY `tid` (`tid`),
+  FULLTEXT KEY `title_fulltext` (`title_fulltext`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Œ Ã‚¡–±Ì';
+
+
+DROP TABLE IF EXISTS `aws_question_discussion`;
+CREATE TABLE `aws_question_discussion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question_id` int(11) DEFAULT '0',
+  `uid` int(11) DEFAULT '0',
+  `message` text,
+  `add_time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `question_id` (`question_id`),
+  KEY `add_time` (`add_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_question_focus`;
+CREATE TABLE `aws_question_focus` (
+  `focus_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '◊‘‘ˆID',
+  `question_id` int(11) DEFAULT '0' COMMENT 'ª∞Ã‚ID',
+  `uid` int(11) DEFAULT '0' COMMENT '”√ªßUID',
+  `add_time` int(10) DEFAULT '0',
+  PRIMARY KEY (`focus_id`),
+  KEY `question_id` (`question_id`),
+  KEY `question_uid` (`question_id`,`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Œ Ã‚πÿ◊¢±Ì';
+
+
+DROP TABLE IF EXISTS `aws_question_invite`;
+CREATE TABLE `aws_question_invite` (
+  `question_invite_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '◊‘‘ˆID',
+  `question_id` int(11) DEFAULT '0' COMMENT 'Œ Ã‚ID',
+  `sender_uid` int(11) DEFAULT '0',
+  `recipients_uid` int(11) DEFAULT '0',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  PRIMARY KEY (`question_invite_id`),
+  KEY `question_id` (`question_id`),
+  KEY `sender_uid` (`sender_uid`),
+  KEY `recipients_uid` (`recipients_uid`),
+  KEY `add_time` (`add_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='—˚«ÎŒ ¥';
+
+
+DROP TABLE IF EXISTS `aws_related_topic`;
+CREATE TABLE `aws_related_topic` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `topic_id` int(11) DEFAULT '0' COMMENT 'ª∞Ã‚ ID',
+  `related_id` int(11) DEFAULT '0' COMMENT 'œ‡πÿª∞Ã‚ ID',
+  PRIMARY KEY (`id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `related_id` (`related_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_scheduled_posts`;
+CREATE TABLE `aws_scheduled_posts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(32) DEFAULT NULL,
+  `uid` int(11) DEFAULT '0',
+  `parent_id` int(11) DEFAULT '0',
+  `time` int(10) DEFAULT '0',
+  `data` text,
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`),
+  KEY `uid` (`uid`),
+  KEY `parent_id` (`parent_id`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_search_cache`;
+CREATE TABLE `aws_search_cache` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `hash` varchar(32) NOT NULL,
+  `data` mediumtext NOT NULL,
+  `time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `hash` (`hash`),
+  KEY `time` (`time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_sessions`;
+CREATE TABLE `aws_sessions` (
+  `id` varchar(32) NOT NULL,
+  `modified` int(10) NOT NULL,
+  `data` text NOT NULL,
+  `lifetime` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `modified` (`modified`),
+  KEY `lifetime` (`lifetime`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_system_setting`;
+CREATE TABLE `aws_system_setting` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `varname` varchar(240) NOT NULL COMMENT '◊÷∂Œ√˚',
+  `value` text COMMENT '±‰¡ø÷µ',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `varname` (`varname`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='œµÕ≥…Ë÷√';
+
+
+DROP TABLE IF EXISTS `aws_topic`;
+CREATE TABLE `aws_topic` (
+  `topic_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ª∞Ã‚id',
+  `topic_title` varchar(64) DEFAULT NULL COMMENT 'ª∞Ã‚±ÍÃ‚',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  `discuss_count` int(11) DEFAULT '0' COMMENT 'Ã÷¬€º∆ ˝',
+  `topic_description` text COMMENT 'ª∞Ã‚√Ë ˆ',
+  `topic_pic` varchar(240) DEFAULT NULL COMMENT 'ª∞Ã‚Õº∆¨',
+  `topic_lock` tinyint(2) DEFAULT '0' COMMENT 'ª∞Ã‚ «∑ÒÀ¯∂® 1 À¯∂® 0 Œ¥À¯∂®',
+  `focus_count` int(11) DEFAULT '0' COMMENT 'πÿ◊¢º∆ ˝',
+  `user_related` tinyint(1) DEFAULT '0' COMMENT ' «∑Ò±ª”√ªßπÿ¡™',
+  `merged_id` int(11) DEFAULT '0',
+  `discuss_count_last_week` int(10) DEFAULT '0',
+  `discuss_count_last_month` int(10) DEFAULT '0',
+  `discuss_count_update` int(10) DEFAULT '0',
+  PRIMARY KEY (`topic_id`),
+  UNIQUE KEY `topic_title` (`topic_title`),
+  KEY `merged_id` (`merged_id`),
+  KEY `discuss_count` (`discuss_count`),
+  KEY `add_time` (`add_time`),
+  KEY `user_related` (`user_related`),
+  KEY `focus_count` (`focus_count`),
+  KEY `topic_lock` (`topic_lock`),
+  KEY `discuss_count_last_week` (`discuss_count_last_week`),
+  KEY `discuss_count_last_month` (`discuss_count_last_month`),
+  KEY `discuss_count_update` (`discuss_count_update`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ª∞Ã‚';
+
+
+DROP TABLE IF EXISTS `aws_topic_focus`;
+CREATE TABLE `aws_topic_focus` (
+  `focus_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '◊‘‘ˆID',
+  `topic_id` int(11) DEFAULT '0' COMMENT 'ª∞Ã‚ID',
+  `uid` int(11) DEFAULT '0' COMMENT '”√ªßUID',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  PRIMARY KEY (`focus_id`),
+  KEY `uid` (`uid`),
+  KEY `topic_id` (`topic_id`),
+  KEY `topic_uid` (`topic_id`,`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='ª∞Ã‚πÿ◊¢±Ì';
+
+
+DROP TABLE IF EXISTS `aws_topic_merge`;
+CREATE TABLE `aws_topic_merge` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `source_id` int(11) DEFAULT '0',
+  `target_id` int(11) DEFAULT '0',
+  `uid` int(11) DEFAULT '0',
+  `time` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `source_id` (`source_id`),
+  KEY `target_id` (`target_id`),
+  KEY `uid` (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_topic_relation`;
+CREATE TABLE `aws_topic_relation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '◊‘‘ˆ ID',
+  `topic_id` int(11) DEFAULT '0' COMMENT 'ª∞Ã‚id',
+  `item_id` int(11) DEFAULT '0',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  `uid` int(11) DEFAULT '0' COMMENT '”√ªßID',
+  `type` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `uid` (`uid`),
+  KEY `type` (`type`),
+  KEY `item_id` (`item_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_users`;
+CREATE TABLE `aws_users` (
+  `uid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '”√ªßµƒ UID',
+  `tbuid` bigint(20) DEFAULT '0',
+  `user_name` varchar(240) DEFAULT NULL COMMENT '”√ªß√˚',
+  `password` varchar(60) DEFAULT NULL COMMENT '”√ªß√‹¬Î',
+  `salt` varchar(16) DEFAULT NULL COMMENT '”√ªß∏Ωº”ªÏœ˝¬Î',
+  `password_recovery_str` varchar(40) DEFAULT NULL COMMENT '”√ªß◊‘…Ë∂®√‹¬Î’“ªÿ◊÷∑˚¥Æ(sha1)',
+  `avatar_file` varchar(128) DEFAULT NULL COMMENT 'Õ∑œÒŒƒº˛',
+  `sex` tinyint(1) DEFAULT '3' COMMENT '–‘±',
+  `reg_time` int(10) DEFAULT '0' COMMENT '◊¢≤· ±º‰',
+  `last_login` int(10) DEFAULT '0' COMMENT '◊Ó∫Ûµ«¬º ±º‰',
+  `notification_unread` int(11) DEFAULT '0' COMMENT 'Œ¥∂¡œµÕ≥Õ®÷™',
+  `inbox_unread` int(11) DEFAULT '0' COMMENT 'Œ¥∂¡∂Ã–≈œ¢',
+  `inbox_recv` tinyint(1) DEFAULT '0' COMMENT '0-À˘”–»Àø…“‘∑¢∏¯Œ“,1-Œ“πÿ◊¢µƒ»À',
+  `fans_count` int(10) DEFAULT '0' COMMENT '∑€Àø ˝',
+  `friend_count` int(10) DEFAULT '0' COMMENT 'π€÷⁄ ˝',
+  `invite_count` int(10) DEFAULT '0' COMMENT '—˚«ÎŒ“ªÿ¥ ˝¡ø',
+  `topic_focus_count` int(10) DEFAULT '0' COMMENT 'πÿ◊¢ª∞Ã‚ ˝¡ø',
+  `group_id` int(10) DEFAULT '0' COMMENT '”√ªß◊È',
+  `forbidden` tinyint(1) DEFAULT '0' COMMENT ' «∑ÒΩ˚÷π”√ªß',
+  `flagged` tinyint(1) DEFAULT '0',
+  `agree_count` int(10) DEFAULT '0' COMMENT '‘ﬁÕ¨ ˝¡ø',
+  `views_count` int(10) DEFAULT '0' COMMENT '∏ˆ»À÷˜“≥≤Èø¥ ˝¡ø',
+  `reputation` float DEFAULT '0' COMMENT '…˘Õ˚',
+  `currency` int(10) DEFAULT '0',
+  `user_update_time` int(10) DEFAULT '0',
+  `verified` varchar(32) DEFAULT NULL,
+  `recent_topics` text,
+  `signature` varchar(140) DEFAULT NULL COMMENT '∏ˆ»À«©√˚',
+  `settings` text,
+  `extra_data` text COMMENT '∂ÓÕ‚ ˝æ›',
+  PRIMARY KEY (`uid`),
+  UNIQUE KEY `user_name` (`user_name`) USING BTREE,
+  KEY `reputation` (`reputation`),
+  KEY `group_id` (`group_id`),
+  KEY `agree_count` (`agree_count`),
+  KEY `forbidden` (`forbidden`),
+  KEY `flagged` (`flagged`),
+  KEY `currency` (`currency`),
+  KEY `verified` (`verified`),
+  KEY `last_login` (`last_login`),
+  KEY `user_update_time` (`user_update_time`),
+  KEY `tbuid` (`tbuid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+
+DROP TABLE IF EXISTS `aws_users_group`;
+CREATE TABLE `aws_users_group` (
+  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` tinyint(3) DEFAULT '0' COMMENT '0-œµÕ≥◊È 1-…˘Õ˚◊È 2-Ãÿ ‚◊È',
+  `group_name` text,
+  `reputation_lower` int(11) DEFAULT '0',
+  `reputation_higer` int(11) DEFAULT '0',
+  `reputation_factor` float DEFAULT '0' COMMENT '…˘Õ˚œµ ˝',
+  `permission` text COMMENT '»®œﬁ…Ë÷√',
+  PRIMARY KEY (`group_id`),
+  KEY `type` (`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='”√ªß◊È';
+
+
+DROP TABLE IF EXISTS `aws_users_notification_setting`;
+CREATE TABLE `aws_users_notification_setting` (
+  `notice_setting_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '◊‘‘ˆid',
+  `uid` int(11) DEFAULT '0',
+  `data` text COMMENT '…Ë÷√ ˝æ›',
+  PRIMARY KEY (`notice_setting_id`),
+  KEY `uid` (`uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='Õ®÷™…Ë∂®';
+
+
+DROP TABLE IF EXISTS `aws_user_follow`;
+CREATE TABLE `aws_user_follow` (
+  `follow_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '◊‘‘ˆID',
+  `fans_uid` int(11) DEFAULT '0' COMMENT 'πÿ◊¢»ÀµƒUID',
+  `friend_uid` int(11) DEFAULT '0' COMMENT '±ªπÿ◊¢»Àµƒuid',
+  `add_time` int(10) DEFAULT '0' COMMENT 'ÃÌº” ±º‰',
+  PRIMARY KEY (`follow_id`),
+  KEY `fans_uid` (`fans_uid`),
+  KEY `friend_uid` (`friend_uid`),
+  KEY `user_follow` (`fans_uid`,`friend_uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='”√ªßπÿ◊¢±Ì';
+
+
+DROP TABLE IF EXISTS `aws_video`;
+CREATE TABLE `aws_video` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `uid` int(11) DEFAULT '0',
   `title` varchar(240) DEFAULT NULL,
   `message` text,
   `source_type` varchar(32) DEFAULT NULL,
   `source` text,
-  `duration` int(10) DEFAULT '0' COMMENT 'Êó∂Èïø Áßí',
+  `duration` int(10) DEFAULT '0' COMMENT ' ±≥§ √Î',
   `comment_count` int(10) DEFAULT '0',
   `view_count` int(10) DEFAULT '0',
   `agree_count` int(10) DEFAULT '0',
@@ -686,11 +700,9 @@ CREATE TABLE IF NOT EXISTS `aws_video` (
   FULLTEXT KEY `title_fulltext` (`title_fulltext`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
 
-
---
-CREATE TABLE IF NOT EXISTS `aws_video_comment` (
+DROP TABLE IF EXISTS `aws_video_comment`;
+CREATE TABLE `aws_video_comment` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `uid` int(10) DEFAULT '0',
   `video_id` int(10) DEFAULT '0',
@@ -708,11 +720,9 @@ CREATE TABLE IF NOT EXISTS `aws_video_comment` (
   KEY `reputation` (`reputation`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
 
-
---
-CREATE TABLE IF NOT EXISTS `aws_vote` (
+DROP TABLE IF EXISTS `aws_vote`;
+CREATE TABLE `aws_vote` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `uid` int(10) DEFAULT '0',
   `recipient_uid` int(10) DEFAULT '0',
@@ -729,84 +739,3 @@ CREATE TABLE IF NOT EXISTS `aws_vote` (
   KEY `add_time` (`add_time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_activity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) DEFAULT '0',
-  `note` varchar(128) DEFAULT NULL,
-  `item_id` int(11) DEFAULT '0',
-  `item_type` varchar(32) DEFAULT NULL,
-  `thread_id` int(11) DEFAULT '0',
-  `category_id` int(11) DEFAULT '0',
-  `time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`),
-  KEY `thread_id` (`thread_id`),
-  KEY `category_id` (`category_id`),
-  KEY `time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_failed_login` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) DEFAULT '0',
-  `type` varchar(32) DEFAULT NULL,
-  `time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`),
-  KEY `type` (`type`),
-  KEY `time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_knowledge` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(240) DEFAULT NULL,
-  `message` text,
-  `remarks` text,
-  `uid` int(11) DEFAULT '0',
-  `last_uid` int(11) DEFAULT '0',
-  `add_time` int(10) DEFAULT '0',
-  `update_time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`),
-  KEY `last_uid` (`last_uid`),
-  KEY `add_time` (`add_time`),
-  KEY `update_time` (`update_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
---
-CREATE TABLE IF NOT EXISTS `aws_admin_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) DEFAULT '0',
-  `admin_uid` int(11) DEFAULT '0',
-  `type` varchar(64) DEFAULT NULL,
-  `status` int(10) DEFAULT '0',
-  `detail` text,
-  `add_time` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `uid` (`uid`),
-  KEY `admin_uid` (`admin_uid`),
-  KEY `type` (`type`),
-  KEY `status` (`status`),
-  KEY `add_time` (`add_time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
---
-
-
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -16,7 +16,7 @@
 								<input type="hidden" name="target_id" value="<?php echo $this->topic_info['topic_id']; ?>" />
 								<dt><?php _e('话题合并'); ?>:</dt>
 								<dd>
-									<a class="btn btn-normal btn-success pull-right" onclick="AWS.submit($('#merge_topic_form'), $(this));"><?php _e('合并'); ?></a>
+									<a class="btn btn-normal btn-info pull-right" onclick="AWS.submit($('#merge_topic_form'), $(this));"><?php _e('合并'); ?></a>
 									<input type="text" class="form-control" name="topic_title" placeholder="<?php _e('在此输入要与该话题合并的话题'); ?>..."/>
 								</dd>
 							</form>
@@ -53,7 +53,7 @@
 						</div>
 						<div class="mod-footer">
 							<?php if ($this->user_info['permission']['manage_topic']) { ?>
-							<a onclick="AWS.ajax_request(G_BASE_URL + '/topic/ajax/lock/', 'topic_id=<?php echo $this->topic_info['topic_id']; ?>');" class="btn btn-success <?php if ($this->topic_info['topic_lock']) { ?>active<?php } ?>"><?php if ($this->topic_info['topic_lock']) { ?><?php _e('解除锁定'); ?><?php } else { ?><?php _e('锁定话题'); ?><?php } ?></a>&nbsp;
+							<a onclick="AWS.ajax_request(G_BASE_URL + '/topic/ajax/lock/', 'topic_id=<?php echo $this->topic_info['topic_id']; ?>');" class="btn btn-info <?php if ($this->topic_info['topic_lock']) { ?>active<?php } ?>"><?php if ($this->topic_info['topic_lock']) { ?><?php _e('解除锁定'); ?><?php } else { ?><?php _e('锁定话题'); ?><?php } ?></a>&nbsp;
 							<a onclick="AWS.confirm('<?php _e('确认删除?'); ?>', function(){AWS.ajax_request(G_BASE_URL + '/topic/ajax/remove/', 'topic_id=<?php echo $this->topic_info['topic_id']; ?>');});" class="btn btn-gray"><?php _e('删除话题'); ?></a>
 							<?php } ?>
 						</div>

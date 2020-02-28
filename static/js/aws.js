@@ -736,6 +736,36 @@ var AWS =
 								verified_title = result.verified;
 							}
 
+              switch(result.sex)
+              {
+                case 1:
+                  result.sex = '♂';
+                  break;
+                case 2:
+                  result.sex = '♀';
+                  break;
+                case 4:
+                  result.sex = 'MTF';
+                  break;
+                case 5:
+                  result.sex = 'FTM';
+                  break;
+                case 6:
+                  result.sex = 'CD';
+                  break;
+                case 7:
+                  result.sex = 'NB';
+                  break;
+                case 8:
+                  result.sex = 'Q';
+                  break;
+                case 9:
+                  result.sex = 'I';
+                  break;
+                default:
+                  result.sex = '';
+              }
+
 							//动态插入盒子
 							$('#aw-ajax-box').html(Hogan.compile(AW_TEMPLATE.userCard).render(
 							{
@@ -751,7 +781,8 @@ var AWS =
 								'focus': focus,
 								'focusTxt': focusTxt,
 								'pm_disabled': result.pm_disabled,
-								'fansCount': result.fans_count
+								'fansCount': result.fans_count,
+								'sex': result.sex
 							}));
 
 							//判断是否为游客or自己

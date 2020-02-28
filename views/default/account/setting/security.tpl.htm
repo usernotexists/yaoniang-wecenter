@@ -1,13 +1,14 @@
 <?php TPL::include('global/header.tpl.htm'); ?>
 <?php TPL::include('account/setting/setting_header.tpl.htm'); ?>
 
-<div class="aw-mod">
-	<div class="mod-body">
-		<div class="aw-mod aw-user-setting-bind">
-			<div class="mod-head">
-				<h3><?php _e('修改密码'); ?></h3>
-			</div>
-			<form class="form-horizontal" action="account/ajax/modify_password/" method="post" id="setting_form">
+<div class="aw-mod aw-user-setting-bind">
+  <div class="mod-body">
+    <form class="form-horizontal" action="account/ajax/modify_password/" method="post" id="setting_form">
+      <div class="aw-mod">
+        <div class="mod-head">
+          <h3><?php _e('修改密码'); ?></h3>
+        </div>
+			
 				<div class="mod-body">
 					<div class="form-group">
 						<label class="control-label" for="input-password-old"><?php _e('当前密码'); ?></label>
@@ -34,14 +35,30 @@
 						</div>
 					</div>      
 				</div>
-			</form>
-		</div>
-	</div>
-	<div class="mod-footer clearfix">
-		<a href="javascript:;" class="btn btn-large btn-success pull-right" onclick="AWS.submit($('#setting_form'), $(this));"><?php _e('保存'); ?></a>
-	</div>
+			
+      </div>
+      <div class="aw-mod">
+        <div class="mod-head">
+          <h3><?php _e('密码恢复字符串'); ?></h3>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="input-password-recovery-str"><?php _e('恢复码'); ?></label>
+					<div class="row">
+						<div class="col-lg-4">
+              <input type="text" class="form-control" id="input-password-recovery-str" name="password_recovery_str" <?php if($this->user_info['password_recovery_str']) echo 'placeholder="' . $this->user_info['password_recovery_str'] . '"disabled'; ?> />
+						</div>
+					</div>
+					<h4><?php _e('设置一个不会忘记的词或是一句话，用于忘记密码时找回'); ?></h4>
+					<h4><?php _e('这是找回密码的唯一途径，请务必牢记'); ?></h4>
+					<h4><?php _e('设置后如需修改，请修改密码'); ?></h4>
+				</div>      
+			</div>	
+    </div>
+    <div class="mod-footer clearfix">
+      <a href="javascript:;" class="btn btn-large btn-info pull-right" onclick="AWS.submit($('#setting_form'), $(this));"><?php _e('保存'); ?></a>
+    </form>
+  </div>
 </div>
-
 
 
 <?php TPL::include('account/setting/setting_footer.tpl.htm'); ?>

@@ -17,7 +17,7 @@
 						<div class="aw-complete-data">
 							<div class="pull-left side-bar">
 								<img id="aw-upload-img" src="<?php echo UF::avatar($this->user_info, 'max'); ?>" title="" alt=""/>
-								<p class="clearfix text-center"><a class="btn btn-success clearfix" id="welcome_avatar_uploader"><?php _e('上传头像'); ?></a> </p>
+								<p class="clearfix text-center"><a class="btn btn-info clearfix" id="welcome_avatar_uploader"><?php _e('上传头像'); ?></a> </p>
 								<p id="aw-img-uploading" class="collapse"><i class="aw-loading"></i><?php _e('文件上传中...'); ?></p>
 
 							</div>
@@ -25,24 +25,39 @@
 								<div class="form-group">
 									<label class="col-sm-2 control-label"><?php _e('性别'); ?>:</label>
 									<div class="col-sm-10">
-										<label>
-											<input type="radio" name="sex" value="1"<?php if ($this->user_info['sex'] == 1) { ?> checked="checked"<?php } ?> />
-											<?php _e('男'); ?>
-										</label> &nbsp;
-										<label>
-											<input type="radio" name="sex" value="2"<?php if ($this->user_info['sex'] == 2) { ?> checked="checked"<?php } ?> />
-											<?php _e('女'); ?>
-										</label> &nbsp;
-										<label>
-											<input type="radio" name="sex" value="3"<?php if (!$this->user_info['sex']) { ?> checked="checked"<?php } ?> />
-											<?php _e('保密'); ?>
-										</label>
+                    <label>
+                      <input name="sex" id="sex" value="1" type="radio"<?php if ($this->user_info['sex'] == 1) { ?> checked="checked"<?php } ?> /> <?php _e('男'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="2" type="radio"<?php if ($this->user_info['sex'] == 2) { ?> checked="checked"<?php } ?> /> <?php _e('女'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="4" type="radio"<?php if ($this->user_info['sex'] == 4) { ?> checked="checked"<?php } ?> /> <?php _e('MTF'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="5" type="radio"<?php if ($this->user_info['sex'] == 5) { ?> checked="checked"<?php } ?> /> <?php _e('FTM'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="6" type="radio"<?php if ($this->user_info['sex'] == 6) { ?> checked="checked"<?php } ?> /> <?php _e('CD'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="7" type="radio"<?php if ($this->user_info['sex'] == 7) { ?> checked="checked"<?php } ?> /> <?php _e('NB'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="8" type="radio"<?php if ($this->user_info['sex'] == 8) { ?> checked="checked"<?php } ?> /> <?php _e('Q'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="9" type="radio"<?php if ($this->user_info['sex'] == 9) { ?> checked="checked"<?php } ?> /> <?php _e('I'); ?>
+                    </label>
+                    <label>
+                      <input name="sex" id="sex" value="3" type="radio"<?php if (!$this->user_info['sex'] OR $this->user_info['sex'] == 3) { ?> checked="checked"<?php } ?> /> <?php _e('保密'); ?>
+                    </label>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-2 control-label"><?php _e('介绍'); ?>:</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" placeholder="<?php _e('如：小熊维尼'); ?>" id="welcome_signature" value="<?php echo UF::signature($this->user_info); ?>" name="signature" />
+										<input type="text" class="form-control" id="welcome_signature" value="<?php echo UF::signature($this->user_info); ?>" name="signature" />
 									</div>
 								</div>
 							</div>
@@ -51,7 +66,7 @@
 					</div>
 					<div class="mod-footer">
 						<a class="pull-left" data-dismiss="modal" aria-hidden="true"><?php _e('跳过资料填写'); ?></a>
-						<a class="btn btn-large btn-success pull-right" onclick="AWS.submit($('#welcome_form'), $(this));"><?php _e('完成'); ?></a>
+						<a class="btn btn-large btn-info pull-right" onclick="AWS.submit($('#welcome_form'), $(this));"><?php _e('完成'); ?></a>
 					</div>
 
 				</div>

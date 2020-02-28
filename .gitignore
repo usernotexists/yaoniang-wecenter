@@ -2,8 +2,16 @@
 .tags
 .tags_sorted_by_file
 .DS_Store
+web.config
 
+adminer.php
 favicon.ico
+i*.php
+!index.php
+php_errors.log
+phpinfo.php
+t*.php
+*.bak
 
 /static/logo/logo.png
 /static/logo/login_logo.png
@@ -16,5 +24,9 @@ favicon.ico
 /tmp/*
 !/tmp/index.html
 
-/plugins/
-/uploads/
+/plugins/*
+!/plugins/index.html
+/uploads/*
+!/uploads/index.html
+
+/e*/

@@ -16,7 +16,7 @@ var AW_TEMPLATE = {
 						'</a>'+
 						'<p class="title clearfix">'+
 							'<a href="{{url}}" class="name" data-id="{{uid}}">{{user_name}}</a>'+
-							'&nbsp;'+
+							'&nbsp;'+'<span>{{sex}}</span>'+
 							'<em class="{{verified_style}}">{{verified_title}}</em>'+
 						'</p>'+
 						'<p class="aw-user-center-follow-meta">'+
@@ -31,7 +31,7 @@ var AW_TEMPLATE = {
 						'<span>'+
 							'<a class="aw-small-text" onclick="AWS.User.compose_message(\'{{user_name}}\', {{pm_disabled}});"><i class="icon icon-inbox"></i> ' + _t('私信') + '</a>&nbsp;&nbsp;&nbsp;&nbsp;<a  class="aw-small-text" onclick="AWS.User.ask_user({{uid}}, \'{{user_name}}\');"><i class="icon icon-at"></i> ' + _t('问Ta') + '</a>'+
 						'</span>'+
-						'<a class="btn btn-normal btn-success follow {{focus}} pull-right" onclick="AWS.User.follow($(this), \'user\', {{uid}});"><span>{{focusTxt}}</span> <em>|</em> <b>{{fansCount}}</b></a>'+
+						'<a class="btn btn-normal btn-info follow {{focus}} pull-right" onclick="AWS.User.follow($(this), \'user\', {{uid}});"><span>{{focusTxt}}</span> <em>|</em> <b>{{fansCount}}</b></a>'+
 					'</div>'+
 				'</div>'+
 			'</div>',
@@ -52,7 +52,7 @@ var AW_TEMPLATE = {
 					'</div>'+
 					'<div class="mod-footer">'+
 						'<span>'+ _t('讨论数') + ': {{discuss_count}}</span>'+
-						'<a class="btn btn-normal btn-success follow {{focus}} pull-right" onclick="AWS.User.follow($(this), \'topic\', {{topic_id}});"><span>{{focusTxt}}</span> <em>|</em> <b>{{focus_count}}</b></a>'+
+						'<a class="btn btn-normal btn-info follow {{focus}} pull-right" onclick="AWS.User.follow($(this), \'topic\', {{topic_id}});"><span>{{focusTxt}}</span> <em>|</em> <b>{{focus_count}}</b></a>'+
 					'</div>'+
 				'</div>'+
 			'</div>',
@@ -60,7 +60,7 @@ var AW_TEMPLATE = {
 	'editTopicBox' :
 		'<div class="aw-edit-topic-box form-inline">'+
 			'<input type="text" class="form-control" id="aw_edit_topic_title" autocomplete="off"  placeholder="' + _t('创建或搜索添加新话题') + '...">'+
-			'<a class="btn btn-normal btn-success add">' + _t('添加') + '</a>'+
+			'<a class="btn btn-normal btn-info add">' + _t('添加') + '</a>'+
 			'<a class="btn btn-normal btn-gray close-edit">' + _t('取消') + '</a>'+
 			'<div class="aw-dropdown">'+
 				'<p class="title">' + _t('没有找到相关结果') + '</p>'+
@@ -78,7 +78,7 @@ var AW_TEMPLATE = {
 						'<div class="aw-comment-box-btn">'+
 							'<span class="pull-right">'+
 								'<!--<label><input type="checkbox" name="anonymous" value="1"> ' + _t('匿名') + '</label>-->' +
-								'<a href="javascript:;" class="btn btn-mini btn-success" onclick="AWS.User.save_comment($(this));">' + _t('讨论') + '</a>'+
+								'<a href="javascript:;" class="btn btn-mini btn-info" onclick="AWS.User.save_comment($(this));">' + _t('讨论') + '</a>'+
 							'</span>'+
 						'</div>'+
 					'</div>'+
@@ -144,7 +144,7 @@ var AW_TEMPLATE = {
 					'</div>'+
 					'<div class="modal-footer">'+
 						'<a class="btn btn-gray" data-dismiss="modal" aria-hidden="true">' + _t('取消') + '</a>'+
-						'<a class="btn btn-success yes">' + _t('确定') + '</a>'+
+						'<a class="btn btn-info yes">' + _t('确定') + '</a>'+
 					'</div>'+
 				'</div>'+
 			'</div>'+
@@ -163,7 +163,7 @@ var AW_TEMPLATE = {
 							'</div>'+
 							'<div class="modal-footer">'+
 								'<a class="btn btn-large btn-gray" data-dismiss="modal" aria-hidden="true">' + _t('取消') + '</a>'+
-								'<a class="btn btn-large btn-success yes">' + _t('确定') + '</a>'+
+								'<a class="btn btn-large btn-info yes">' + _t('确定') + '</a>'+
 							'</div>'+
 					'</div>'+
 				'</div>'+
@@ -182,7 +182,7 @@ var AW_TEMPLATE = {
 							'</div>'+
 							'<div class="modal-footer">'+
 								'<a class="btn btn-large btn-gray" data-dismiss="modal" aria-hidden="true">' + _t('取消') + '</a>'+
-								'<a class="btn btn-large btn-success yes">' + _t('确定') + '</a>'+
+								'<a class="btn btn-large btn-info yes">' + _t('确定') + '</a>'+
 							'</div>'+
 					'</div>'+
 				'</div>'+

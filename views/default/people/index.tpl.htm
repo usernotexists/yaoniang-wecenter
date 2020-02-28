@@ -1,4 +1,37 @@
-<?php TPL::include('global/header.tpl.htm'); ?>
+<?php TPL::include('global/header.tpl.htm'); 
+	switch ($this->user['sex'])
+	{
+		case 1:
+			$user_sex = '♂';
+			break;
+		case 2:
+			$user_sex = '♀';
+			break;
+		case 4:
+			$user_sex = 'MTF';
+			break;
+		case 5:
+			$user_sex = 'FTM';
+			break;
+		case 6:
+			$user_sex = 'CD';
+			break;
+		case 7:
+			$user_sex = 'NB';
+			break;
+		case 8:
+			$user_sex = 'Q';
+			break;
+		case 9:
+			$user_sex = 'I';
+			break;
+		default:
+			$user_sex = '';
+	}
+
+
+
+?>
 
 <div class="aw-container-wrap">
 	<div class="container">
@@ -31,12 +64,13 @@
 
 								<a href="javascript:;" class="aw-small-text" onclick="AWS.User.compose_message('<?php echo UF::name($this->user); ?>');"><i class="icon icon-inbox"></i> <?php _e('私信'); ?></a>
 								<a href="javascript:;" class="aw-small-text hidden-xs" onclick="AWS.User.ask_user(<?php echo $this->user['uid']; ?>, '<?php echo UF::name($this->user); ?>');"><i class="icon icon-at"></i> <?php _e('问Ta'); ?></a>
-								<a href="javascript:;" class="follow btn btn-normal btn-success<?php if ($this->user_follow_check) { ?> active<?php } ?>" onclick="AWS.User.follow($(this), 'user', <?php echo $this->user['uid']; ?>);"><span><?php if ($this->user_follow_check) { ?><?php _e('取消关注'); ?><?php } else { ?><?php _e('关注'); ?><?php } ?></span> <em>|</em> <b><?php echo $this->user['fans_count']; ?></b></a>
+								<a href="javascript:;" class="follow btn btn-normal btn-info<?php if ($this->user_follow_check) { ?> active<?php } ?>" onclick="AWS.User.follow($(this), 'user', <?php echo $this->user['uid']; ?>);"><span><?php if ($this->user_follow_check) { ?><?php _e('取消关注'); ?><?php } else { ?><?php _e('关注'); ?><?php } ?></span> <em>|</em> <b><?php echo $this->user['fans_count']; ?></b></a>
 							<?php } else if ($this->user_id == $this->user['uid']) { ?>
-								<a href="account/setting/profile/" class="btn btn-mini btn-success"><?php _e('编辑'); ?></a>
+								<a href="account/setting/profile/" class="btn btn-mini btn-info"><?php _e('编辑'); ?></a>
 							<?php } ?>
 							</span>
 							<span class="aw-nowrap"><?php echo UF::name($this->user); ?></span>
+							<span class="aw-nowrap"><?php echo $user_sex; ?></span>
 							<?php if ($this->user['verified']) { ?><em class="aw-verified"><?php echo $this->user['verified']; ?></em><?php } ?>
 							<!-- 封禁 -->
 							<?php if ($this->user['forbidden'] == 2) { ?>

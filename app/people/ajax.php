@@ -79,6 +79,7 @@ class ajax extends AWS_CONTROLLER
 			'verified' => $user_info['verified'],
 			'fans_count' => $user_info['fans_count'],
 			'pm_disabled' => $pm_disabled,
+			'sex' => $user_info['sex']
 		));
 	}
 
